@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Результаты поиска заказов</title>
+</head>
+<body>
+    <h1>Результаты поиска заказов</h1>
+    <form method="get" action="{% url 'order_search' %}">
+        {{ search_form.as_p }}
+        <button type="submit">Поиск</button>
+    </form>
+    <ul>
+        {% for order in orders %}
+            <li>
+                Заказ: {{ order.id }}, Номер стола: {{ order.table_number }}, Статус: {{ order.get_status_display }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Кнопки пагинации -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}&table_number={{ request.GET.table_number }}&status={{ request.GET.status }}">Назад</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}&table_number={{ request.GET.table_number }}&status={{ request.GET.status }}">Вперед</a>
+            {% endif %}
+        </span>
+    </div>
+
+</body>
+</html>
