@@ -1,5 +1,5 @@
 from django.views.generic import CreateView, DeleteView, FormView
-from .forms import OrderForm
+from .forms import OrderForm, OrderDeleteForm
 from .models import Order
 
 class OrderCreateView(CreateView):
@@ -16,3 +16,16 @@ class OrderCreateView(CreateView):
         return super().form_valid(form)
 
 
+class OrderDeleteFormView(FormView):
+    template_name = 'orders_delete.html'
+    form_class = OrderDeleteForm
+
+    def form_valid(self, form):
+        order_id = form.cleaned_data['order_id']
+        try:
+            order = Order.objects.get(pk=order_id)
+            order.delete()
+            return super().form_valid(form)
+        except Order.DoesNotExist:
+            form.add_error('order_id', 'Заказ с указанным ID не найден.')
+            return self.form_invalid(form)
