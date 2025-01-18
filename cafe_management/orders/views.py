@@ -1,5 +1,5 @@
-from django.views.generic import CreateView, DeleteView, FormView
-from .forms import OrderForm, OrderDeleteForm
+from django.views.generic import CreateView, DeleteView, FormView, ListView
+from .forms import OrderForm, OrderDeleteForm, OrderSearchForm
 from .models import Order
 
 class OrderCreateView(CreateView):
@@ -29,3 +29,26 @@ class OrderDeleteFormView(FormView):
         except Order.DoesNotExist:
             form.add_error('order_id', 'Заказ с указанным ID не найден.')
             return self.form_invalid(form)
+
+
+
+
+class OrderSearchView(ListView):
+    model = Order
+    template_name = 'orders_search.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        table_number = self.request.GET.get('table_number')
+        status = self.request.GET.get('status')
+        if table_number:
+            queryset = queryset.filter(table_number=table_number)
+        if status:
+            queryset = queryset.filter(status=status)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['search_form'] = OrderSearchForm(self.request.GET or None)
+        return context

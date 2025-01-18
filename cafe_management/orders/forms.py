@@ -24,3 +24,13 @@ class OrderForm(forms.ModelForm):
 
 class OrderDeleteForm(forms.Form):
     order_id = forms.IntegerField(label='Введите ID заказа для удаления', required=True)
+
+
+
+class OrderSearchForm(forms.Form):
+    table_number = forms.IntegerField(required=False, label='Номер стола')
+    status = forms.ChoiceField(choices=[
+        ('waiting', 'в ожидании'),
+        ('ready', 'готово'),
+        ('paid', 'оплачено')
+    ], required=False, label='Статус заказа')
