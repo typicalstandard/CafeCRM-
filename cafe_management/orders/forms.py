@@ -22,3 +22,5 @@ class OrderForm(forms.ModelForm):
         return items
 
 
+class OrderDeleteForm(forms.Form):
+    order_id = forms.IntegerField(label='Введите ID заказа для удаления', required=True)
