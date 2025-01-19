@@ -16,13 +16,9 @@ class OrderDeleteFormView(FormView):
 
     def form_valid(self, form):
         order_id = form.cleaned_data['order_id']
-        try:
-            order = Order.objects.get(pk=order_id)
-            order.delete()
-            return super().form_valid(form)
-        except Order.DoesNotExist:
-            form.add_error('order_id', 'Заказ с указанным ID не найден.')
-            return self.form_invalid(form)
+        order = Order.objects.get(pk=order_id)
+        order.delete()
+        return super().form_valid(form)
 
 
 
@@ -64,13 +60,10 @@ class OrderUpdateView(FormView):
         order_id = form.cleaned_data['order_id']
         status = form.cleaned_data['status']
         order = Order.objects.filter(id=order_id).first()
-        if order:
-            order.status = status
-            order.save()
-            return super().form_valid(form)
-        else:
-            form.add_error('order_id', 'Заказ с указанным ID не найден.')
-            return self.form_invalid(form)
+        order.status = status
+        order.save()
+        return super().form_valid(form)
+
 
 
 

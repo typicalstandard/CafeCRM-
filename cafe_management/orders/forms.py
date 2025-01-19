@@ -2,6 +2,9 @@ from django import forms
 from .models import Order
 from menu.models import Dish
 
+from .validators import validate_order_id
+
+
 class OrderForm(forms.ModelForm):
     table_number = forms.IntegerField(required=True, label='Номер стола')
     items = forms.ModelMultipleChoiceField(
@@ -23,7 +26,9 @@ class OrderForm(forms.ModelForm):
 
 
 class OrderDeleteForm(forms.Form):
-    order_id = forms.IntegerField(label='Введите ID заказа для удаления', required=True)
+    order_id = forms.IntegerField(label='Введите ID заказа для удаления', required=True,validators=[validate_order_id])
+
+
 
 
 
@@ -37,9 +42,10 @@ class OrderSearchForm(forms.Form):
 
 
 class OrderStatusForm(forms.Form):
-    order_id = forms.IntegerField(label='ID заказа')
+    order_id = forms.IntegerField(label='ID заказа',validators=[validate_order_id])
     status = forms.ChoiceField(label='Статус заказа', choices=[
         ('waiting', 'в ожидании'),
         ('ready', 'готово'),
         ('paid', 'оплачено')
     ])
+
