@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
 from .forms import OrderForm, OrderDeleteForm, OrderSearchForm, OrderStatusForm
 from .models import Order
@@ -8,11 +9,13 @@ class OrderCreateView(CreateView):
     model = Order
     template_name = 'orders_create.html'
     title_page = 'Добавление заказа'
+    success_url = reverse_lazy('home')
 
 
 class OrderDeleteFormView(FormView):
     template_name = 'orders_delete.html'
     form_class = OrderDeleteForm
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         order_id = form.cleaned_data['order_id']
@@ -25,6 +28,7 @@ class OrderSearchView(ListView):
     template_name = 'orders_search.html'
     context_object_name = 'orders'
     paginate_by = 10
+    success_url = reverse_lazy('home')
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -52,6 +56,7 @@ class OrderListView(ListView):
 class OrderUpdateView(FormView):
     template_name = 'orders_choice_status.html'
     form_class = OrderStatusForm
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         order_id = form.cleaned_data['order_id']
@@ -60,7 +65,6 @@ class OrderUpdateView(FormView):
         order.status = status
         order.save()
         return super().form_valid(form)
-
 
 
 
