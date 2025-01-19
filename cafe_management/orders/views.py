@@ -1,5 +1,6 @@
-from django.views.generic import CreateView, DeleteView, FormView, ListView
-from .forms import OrderForm, OrderDeleteForm, OrderSearchForm
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
+from .forms import OrderForm, OrderDeleteForm, OrderSearchForm, OrderStatusForm
 from .models import Order
 
 class OrderCreateView(CreateView):
@@ -46,3 +47,34 @@ class OrderSearchView(ListView):
         context = super().get_context_data(**kwargs)
         context['search_form'] = OrderSearchForm(self.request.GET or None)
         return context
+
+
+
+class OrderListView(ListView):
+    model = Order
+    template_name = 'orders_list.html'
+    context_object_name = 'orders'
+
+
+class OrderUpdateView(FormView):
+    template_name = 'orders_choice_status.html'
+    form_class = OrderStatusForm
+
+    def form_valid(self, form):
+        order_id = form.cleaned_data['order_id']
+        status = form.cleaned_data['status']
+        order = Order.objects.filter(id=order_id).first()
+        if order:
+            order.status = status
+            order.save()
+            return super().form_valid(form)
+        else:
+            form.add_error('order_id', 'Заказ с указанным ID не найден.')
+            return self.form_invalid(form)
+
+
+
+def total_revenue(request):
+    paid_orders = Order.objects.filter(status='paid')
+    total_revenue = sum(order.total_price for order in paid_orders)
+    return render(request, 'total_revenue.html', {'total_revenue': total_revenue})
