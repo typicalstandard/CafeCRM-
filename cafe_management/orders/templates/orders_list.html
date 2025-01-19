@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список заказов</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <h1>Список заказов</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Номер стола</th>
+                <th>Список блюд</th>
+                <th>Общая стоимость</th>
+                <th>Состояние</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.table_number }}</td>
+                <td>
+                    <ul>
+                        {% for item in order.items.all %}
+                        <li>{{ item.name }} ({{ item.price }})</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+                <td>{{ order.total_price }}</td>
+                <td>{{ order.get_status_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
