@@ -34,3 +34,12 @@ class OrderSearchForm(forms.Form):
         ('ready', 'готово'),
         ('paid', 'оплачено')
     ], required=False, label='Статус заказа')
+
+
+class OrderStatusForm(forms.Form):
+    order_id = forms.IntegerField(label='ID заказа')
+    status = forms.ChoiceField(label='Статус заказа', choices=[
+        ('waiting', 'в ожидании'),
+        ('ready', 'готово'),
+        ('paid', 'оплачено')
+    ])
