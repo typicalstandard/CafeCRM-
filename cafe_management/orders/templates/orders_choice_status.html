@@ -1,14 +1,12 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Изменение статуса заказа</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Изменение статуса заказа{% endblock %}
+
+{% block content %}
     <h1>Изменение статуса заказа</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Сохранить</button>
     </form>
-</body>
-</html>
+{% endblock %}

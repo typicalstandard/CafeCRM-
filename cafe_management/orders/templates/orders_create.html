@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавление заказа</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Добавление заказа{% endblock %}
+
+{% block content %}
     <h1>{{ title_page }}</h1>
     <form method="post" action="{% url 'order_create' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Добавить заказ</button>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -1,16 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Удаление заказа</title>
-</head>
-<body>
+<!-- order_delete.html -->
+{% extends 'base.html' %}
+
+{% block title %}Удаление заказа{% endblock %}
+
+{% block content %}
     <h1>Удаление заказа</h1>
     <form method="post" action="{% url 'order_delete' %}">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Удалить заказ</button>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -1,0 +1,27 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Главная{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'order_create' %}">Добавить заказ</a></li>
+                <li><a href="{% url 'order_search' %}">Поиск заказа</a></li>
+                <li><a href="{% url 'order_update' %}">Изменить статус заказа</a></li>
+                <li><a href="{% url 'order_delete' %}">Удалить заказ</a></li>
+                <li><a href="{% url 'total_revenue' %}">Расчет выручки</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+</body>
+</html>

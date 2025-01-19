@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Результаты поиска заказов</title>
-</head>
-<body>
+{% extends 'base.html' %}
+
+{% block title %}Результаты поиска заказов{% endblock %}
+
+{% block content %}
     <h1>Результаты поиска заказов</h1>
     <form method="get" action="{% url 'order_search' %}">
         {{ search_form.as_p }}
@@ -13,11 +10,12 @@
     </form>
     <ul>
         {% for order in orders %}
-            <li>
+            <div class="order-item">
                 Заказ: {{ order.id }}, Номер стола: {{ order.table_number }}, Статус: {{ order.get_status_display }}
-            </li>
+            </div>
         {% endfor %}
     </ul>
+
 
     <!-- Кнопки пагинации -->
     <div class="pagination">
@@ -35,6 +33,4 @@
             {% endif %}
         </span>
     </div>
-
-</body>
-</html>
+{% endblock %}

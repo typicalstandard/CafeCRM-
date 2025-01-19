@@ -20,9 +20,6 @@ class OrderDeleteFormView(FormView):
         order.delete()
         return super().form_valid(form)
 
-
-
-
 class OrderSearchView(ListView):
     model = Order
     template_name = 'orders_search.html'
@@ -48,7 +45,7 @@ class OrderSearchView(ListView):
 
 class OrderListView(ListView):
     model = Order
-    template_name = 'orders_list.html'
+    template_name = 'home.html'
     context_object_name = 'orders'
 
 
