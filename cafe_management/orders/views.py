@@ -53,3 +53,10 @@ class OrderSearchView(ListView):
         context = super().get_context_data(**kwargs)
         context['search_form'] = OrderSearchForm(self.request.GET or None)
         return context
+
+
+
+class OrderListView(ListView):
+    model = Order
+    template_name = 'orders_list.html'
+    context_object_name = 'orders'
