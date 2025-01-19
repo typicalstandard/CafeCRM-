@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
 from .forms import OrderForm, OrderDeleteForm, OrderSearchForm, OrderStatusForm
 from .models import Order
@@ -81,3 +81,7 @@ class OrderUpdateView(FormView):
 
 
 
+def total_revenue(request):
+    paid_orders = Order.objects.filter(status='paid')
+    total_revenue = sum(order.total_price for order in paid_orders)
+    return render(request, 'total_revenue.html', {'total_revenue': total_revenue})
