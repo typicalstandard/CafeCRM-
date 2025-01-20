@@ -10,7 +10,7 @@ class DishSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'price']
 
 class OrderSerializer(serializers.ModelSerializer):
-    items = serializers.PrimaryKeyRelatedField(queryset=Dish.objects.all(), many=True)
+    items = DishSerializer(many=True, read_only=True)
 
     class Meta:
         model = Order

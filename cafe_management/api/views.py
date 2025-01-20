@@ -26,3 +26,27 @@ class DeleteOrderAPIView(APIView):
             return Response({'error': 'Заказ не найден'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+# orders/views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from orders.models import Order
+from .serializers import OrderSerializer
+
+
+class SearchOrderAPIView(APIView):
+    def get(self, request, format=None):
+        table_number = request.query_params.get('table_number')
+        status_param = request.query_params.get('status')
+
+        if table_number is not None:
+            orders = Order.objects.filter(table_number=table_number)
+        elif status_param is not None:
+            orders = Order.objects.filter(status=status_param)
+        else:
+            return Response({'error': 'Table number or status not provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
