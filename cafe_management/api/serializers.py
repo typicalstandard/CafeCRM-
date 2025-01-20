@@ -1,7 +1,8 @@
-# orders/serializers.py
 from rest_framework import serializers
+
 from menu.models import Dish
 from orders.models import Order
+
 
 class DishSerializer(serializers.ModelSerializer):
     class Meta:
