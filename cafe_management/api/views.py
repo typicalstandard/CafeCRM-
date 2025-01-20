@@ -28,13 +28,6 @@ class DeleteOrderAPIView(APIView):
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-# orders/views.py
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from orders.models import Order
-from .serializers import OrderSerializer
-
 
 class SearchOrderAPIView(APIView):
     def get(self, request, format=None):
@@ -50,3 +43,4 @@ class SearchOrderAPIView(APIView):
 
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
