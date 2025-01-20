@@ -39,7 +39,7 @@ class SearchOrderAPIView(APIView):
         elif status_param is not None:
             orders = Order.objects.filter(status=status_param)
         else:
-            return Response({'error': 'Table number or status not provided'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Номер стола или статуса не предоставлены '}, status=status.HTTP_400_BAD_REQUEST)
 
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
