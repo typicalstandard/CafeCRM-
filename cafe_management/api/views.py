@@ -44,3 +44,18 @@ class SearchOrderAPIView(APIView):
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+
+class OrderUpdateStatusAPIView(APIView):
+    def patch(self, request, pk, format=None):
+        try:
+            order = Order.objects.get(pk=pk)
+            new_status = request.data.get('status')
+            if new_status in ['waiting', 'ready', 'paid']:
+                order.status = new_status
+                order.save()
+                return Response({'status': 'Статус обновлен'}, status=status.HTTP_200_OK)
+            return Response({'error': 'Неверный статус'}, status=status.HTTP_400_BAD_REQUEST)
+        except Order.DoesNotExist:
+            return Response({'error': 'Заказ не найден'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
