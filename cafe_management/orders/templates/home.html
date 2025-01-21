@@ -4,6 +4,17 @@
 
 {% block content %}
     <h1>Список заказов</h1>
+
+    <form method="get" action="{% url 'home' %}" class="search-form">
+        <div class="form-group-horizontal">
+            {{ search_form.query }}
+            {{ search_form.status }}
+            <button type="submit">Поиск</button>
+        </div>
+    </form>
+
+    {%if orders is None%}
+
     <table>
         <thead>
             <tr>
@@ -32,4 +43,19 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if is_paginated %}
+        <div class="pagination">
+            {% for page_num in paginator.page_range %}
+                {% if page_obj.number == page_num %}
+                    <span class="current">{{ page_num }}</span>
+                {% else %}
+                    <a href="?page={{ page_num }}&query={{ search_form.query.value }}&status={{ search_form.status.value }}">{{ page_num }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% else %}
+        <p>Результаты не найдены.</p>
+    {%endif%}
 {% endblock %}

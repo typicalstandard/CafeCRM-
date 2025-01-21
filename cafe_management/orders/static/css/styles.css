@@ -1,5 +1,8 @@
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
 table {
@@ -48,20 +51,13 @@ tr:hover {
     background-color: #0056b3;
 }
 
-
-/* static/css/styles.css */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-}
 header {
     background-color: #333;
     color: #fff;
     padding: 15px 0;
     text-align: center;
 }
+
 nav ul {
     list-style: none;
     padding: 0;
@@ -69,21 +65,26 @@ nav ul {
     display: flex;
     justify-content: center;
 }
+
 nav ul li {
     margin: 0 15px;
 }
+
 nav ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 18px;
 }
+
 nav ul li a:hover {
     text-decoration: underline;
 }
+
 main {
     padding: 20px;
     text-align: center;
 }
+
 button {
     padding: 10px 20px;
     font-size: 16px;
@@ -93,10 +94,59 @@ button {
     border: none;
     border-radius: 5px;
 }
+
 button:hover {
     background-color: #555;
 }
 
 .order-item {
     padding: 10px;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.pagination a, .pagination span {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+}
+
+.pagination a:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .current {
+    background-color: #333;
+    color: white;
+    border-color: #fff;
+}
+
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-form .form-group-horizontal {
+    display: flex;
+    gap: 10px;
+}
+
+.search-form button {
+    padding: 5px 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #004494;
 }
