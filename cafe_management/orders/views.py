@@ -29,7 +29,7 @@ class OrderSearchView(ListView):
     model = Order
     template_name = 'home.html'
     context_object_name = 'orders'
-    paginate_by = 10
+    paginate_by = 5
 
     def get_queryset(self):
         queryset = super().get_queryset()
