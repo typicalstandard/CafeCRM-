@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DeleteView, FormView, ListView, UpdateView
@@ -26,7 +27,7 @@ class OrderDeleteFormView(FormView):
 
 class OrderSearchView(ListView):
     model = Order
-    template_name = 'orders_search.html'
+    template_name = 'home.html'
     context_object_name = 'orders'
     paginate_by = 10
 
@@ -34,10 +35,14 @@ class OrderSearchView(ListView):
         queryset = super().get_queryset()
         search_form = OrderSearchForm(self.request.GET)
         if search_form.is_valid():
-            table_number = search_form.cleaned_data.get('table_number')
+            query = search_form.cleaned_data.get('query')
             status = search_form.cleaned_data.get('status')
-            if table_number is not None:
-                queryset = queryset.filter(table_number=table_number)
+            if query:
+                try:
+                    table_number = int(query)
+                    queryset = queryset.filter(Q(table_number=table_number))
+                except ValueError:
+                    queryset = queryset.filter(Q(status__icontains=query))
             if status:
                 queryset = queryset.filter(status=status)
         return queryset
@@ -47,13 +52,6 @@ class OrderSearchView(ListView):
         context['search_form'] = OrderSearchForm(self.request.GET or None)
         return context
 
-
-
-
-class OrderListView(ListView):
-    model = Order
-    template_name = 'home.html'
-    context_object_name = 'orders'
 
 
 class OrderUpdateView(FormView):
